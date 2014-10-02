@@ -109,6 +109,10 @@ bin/kitchen converge --concurrency
 This will compile the gems and add them to `files/<platform>`. See above for
 supported platform versions.
 
+Note that the compiled gems are *not* included in the Git repository by default.
+You will have to clone the repository and run the above `kitchen` command to get
+these gems.
+
 ## License and Author
 
 Author:: Jean Mertz (<jean@mertz.fm>)

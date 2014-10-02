@@ -5,12 +5,15 @@
 # version of the vendored gems to be included in the cookbook. You SHOULD NOT
 # use this recipe in any production environment.
 #
-git_pkg     = 'git'
-git_pkg     << '-core' if node[:platform_version] == '10.04'
-gem_path    = File.join(Chef::Config[:file_cache_path], 'transip')
-gem_file    = File.join(gem_path, "transip-#{node['gem_version']}.gem")
-vendor_path = "/home/vagrant/files/#{node[:platform]}-" \
-              "#{node[:platform_version]}/vendor"
+gems_with_extensions = %w(nokogiri)
+
+git_pkg      = 'git'
+git_pkg      << '-core' if node[:platform_version] == '10.04'
+gem_path     = File.join(Chef::Config[:file_cache_path], 'transip')
+gem_file     = File.join(gem_path, "transip-#{node['gem_version']}.gem")
+default_path = '/home/vagrant/files/default/vendor'
+vendor_path  = "/home/vagrant/files/#{node[:platform]}-" \
+               "#{node[:platform_version]}/vendor"
 
 execute 'apt-get update' do
   action :nothing
@@ -56,9 +59,25 @@ gem_package 'transip' do
 end
 
 bash 'reduce_gem_size' do
-  action :nothing
-  cwd    vendor_path
-  code   <<-EOF
-    rm -rf doc cache
+  action   :nothing
+  notifies :run, 'ruby_block[transfer_gems_without_extensions]'
+  cwd      vendor_path
+  code     <<-EOF
+    rm -rf doc cache gems/*/spec gems/*/test
   EOF
+end
+
+ruby_block 'transfer_gems_without_extensions' do
+  action :nothing
+  block do
+    Dir[File.join(vendor_path, '*')].each do |dir|
+      next unless File.directory?(dir)
+      next unless gems_with_extensions.any? do |ext|
+        dir.include?(File.join(vendor_path, "#{ext}*"))
+      end
+
+      FileUtils.mkdir(default_path)
+      FileUtils.mv(dir, default_path)
+    end
+  end
 end

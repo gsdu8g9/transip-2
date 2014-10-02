@@ -1,0 +1,29 @@
+---
+driver:
+  name: vagrant
+  synced_folders:
+    - ['files/', '/home/vagrant/files']
+
+provisioner:
+  name: chef_zero
+
+platforms:
+  - name: ubuntu-10.04
+  - name: ubuntu-12.04
+  - name: ubuntu-14.04
+  - name: debian-6.0.10
+  - name: debian-7.6
+
+suites:
+  - name: compile
+    run_list: 'transip::compile'
+    attributes:
+      # If `build_gem` is true, the gem source will be downloaded from the
+      # `gem_repo` repository, using the `gem_ref` reference. If set to false,
+      # the gem will be installed by downloading the version specified by
+      # `gem_version` from Rubygems.
+      #
+      build_gem: true
+      gem_version: 0.4.2
+      gem_repo: https://github.com/JeanMertz/transip.git
+      gem_ref: 344fa888878922a414bb657866c3e0896dd09266

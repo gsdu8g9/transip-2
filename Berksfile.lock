@@ -1,0 +1,7 @@
+DEPENDENCIES
+  transip
+    path: .
+    metadata: true
+
+GRAPH
+  transip (0.9.0)

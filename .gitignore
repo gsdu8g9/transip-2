@@ -1,0 +1,6 @@
+*.DS_Store
+/.kitchen
+/.bundle
+/vendor
+/files/*
+!/files/.keep

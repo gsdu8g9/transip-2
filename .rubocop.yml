@@ -1,0 +1,11 @@
+AllCops:
+  Exclude:
+    - 'bin/**/*'
+    - 'vendor/**/*'
+    - 'files/default/vendor/**/*'
+
+NumericLiterals:
+  Enabled: false
+
+SingleSpaceBeforeFirstArg:
+  Enabled: false

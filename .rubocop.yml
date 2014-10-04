@@ -9,3 +9,6 @@ NumericLiterals:
 
 SingleSpaceBeforeFirstArg:
   Enabled: false
+
+Metrics/LineLength:
+  Max: 100

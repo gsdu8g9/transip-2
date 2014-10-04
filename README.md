@@ -1,12 +1,14 @@
 # Transip cookbook
 
-[![Cookbook Version](https://img.shields.io/cookbook/v/transip.svg?style=flat)][transip]
+[![Cookbook version](https://img.shields.io/cookbook/v/transip.svg?style=flat)][transip]
 [![Build Status](http://img.shields.io/travis/kabisa-cookbooks/transip.svg?style=flat)][travis]
+[![Chat room](http://img.shields.io/badge/gitter-chat-green.svg?style=flat)][gitter]
 
 Provides Transip API LWRPs.
 
 [transip]: https://supermarket.getchef.com/cookbooks/transip
-[travis]: http://travis-ci.org/kabisa-cookbooks/transip
+[travis]: https://travis-ci.org/kabisa-cookbooks/transip
+[gitter]: https://gitter.im/kabisa-cookbooks/transip
 
 ## Requirements
 

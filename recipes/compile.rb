@@ -7,8 +7,6 @@
 #
 gems_with_extensions = %w(nokogiri)
 
-git_pkg      = 'git'
-git_pkg      << '-core' if node[:platform_version] == '10.04'
 gem_path     = File.join(Chef::Config[:file_cache_path], 'transip')
 gem_file     = File.join(gem_path, "transip-#{node['gem_version']}.gem")
 default_path = '/home/vagrant/files/default/vendor'
@@ -28,7 +26,7 @@ directory 'delete_compiled_gems' do
 end
 
 if node['build_gem']
-  package git_pkg
+  package 'git'
 
   git 'transip' do
     action :sync

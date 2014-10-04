@@ -29,10 +29,8 @@ Provides Transip API LWRPs.
 **NOTE** that platform dependencies are strictly enforced. Using this cookbook
 on any other platform (version) will abort your Chef run.
 
-* ubuntu 10.04
 * ubuntu 12.04
 * ubuntu 14.04
-* debian 6.0.10
 * debian 7.6
 
 ### Dependencies

@@ -2,7 +2,7 @@
 
 [![Cookbook version](https://img.shields.io/cookbook/v/transip.svg?style=flat)][transip]
 [![Build Status](http://img.shields.io/travis/kabisa-cookbooks/transip.svg?style=flat)][travis]
-[![Chat room](http://img.shields.io/badge/gitter-chat-green.svg?style=flat)][gitter]
+[![Chat room](http://img.shields.io/badge/chat-gitter-green.svg?style=flat)][gitter]
 
 Provides Transip API LWRPs.
 

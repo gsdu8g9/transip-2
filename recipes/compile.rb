@@ -19,6 +19,13 @@ end.run_action(:run)
 
 chef_gem 'mini_portile'
 
+directory 'delete_gems' do
+  action    :delete
+  only_if   { node[:platform] == 'ubuntu' && node[:platform_version] == '12.04' }
+  path      default_path
+  recursive true
+end
+
 directory 'delete_compiled_gems' do
   action    :delete
   path      vendor_path
@@ -58,24 +65,35 @@ end
 
 bash 'reduce_gem_size' do
   action   :nothing
-  notifies :run, 'ruby_block[transfer_gems_without_extensions]'
+  notifies :run, 'ruby_block[process_gems_without_extensions]'
   cwd      vendor_path
   code     <<-EOF
     rm -rf doc cache gems/*/spec gems/*/test
   EOF
 end
 
-ruby_block 'transfer_gems_without_extensions' do
+ruby_block 'process_gems_without_extensions' do
   action :nothing
   block do
-    Dir[File.join(vendor_path, '*')].each do |dir|
+    Dir[File.join(vendor_path, 'gems', '*')].each do |dir|
       next unless File.directory?(dir)
-      next unless gems_with_extensions.any? do |ext|
-        dir.include?(File.join(vendor_path, "#{ext}*"))
+      next if gems_with_extensions.any? do |ext|
+        dir.include?(File.join(vendor_path, 'gems', ext))
       end
 
-      FileUtils.mkdir(default_path)
-      FileUtils.mv(dir, default_path)
+      name  = File.basename(dir)
+      specs = File.expand_path(File.join(vendor_path, 'specifications', "#{name}.gemspec"))
+
+      FileUtils.mkdir_p(File.join(default_path, 'gems'))
+      FileUtils.mkdir_p(File.join(default_path, 'specifications'))
+
+      if node[:platform] == 'ubuntu' && node[:platform_version] == '12.04'
+        FileUtils.mv(dir, File.join(default_path, 'gems'))
+        FileUtils.mv(specs, File.join(default_path, 'specifications'))
+      else
+        FileUtils.rm_rf(dir)
+        FileUtils.rm_rf(specs)
+      end
     end
   end
 end

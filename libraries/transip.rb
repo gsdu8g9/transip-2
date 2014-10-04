@@ -5,6 +5,7 @@ def expanded_gems(type = 'default')
   cbpaths = [Chef::Config[:cookbook_path]].flatten
 
   Dir[*cbpaths.map! do |path|
+    File.join(path, 'transip/files/default/vendor/gems/**/lib')
     File.join(path, "transip/files/#{type}/vendor/gems/**/lib")
   end]
 end
